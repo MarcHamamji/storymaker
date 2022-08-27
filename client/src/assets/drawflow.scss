@@ -1,0 +1,182 @@
+@import 'variables';
+
+$dfBackgroundColor: $backgroundColor;
+$dfBackgroundSize: 20px;
+$dfBackgroundImage: radial-gradient(lighten($dfBackgroundColor, 15%) 1px, transparent 1px);
+$dfNodeType: flex;
+$dfNodeTypeFloat: none;
+$dfNodeBackgroundColor: $primaryColor;
+$dfNodeTextColor: white;
+$dfNodeBorderSize: 2px;
+$dfNodeBorderColor: $lightPrimaryColor;
+$dfNodeBorderRadius: 16px;
+$dfNodeMinHeight: 28px;
+$dfNodeMinWidth: 280px;
+$dfNodePaddingTop: 0px;
+$dfNodePaddingBottom: 0px;
+$dfNodeHoverBackgroundColor: $primaryColor;
+$dfNodeHoverTextColor: white;
+$dfNodeHoverBorderSize: 2px;
+$dfNodeHoverBorderColor: $lightPrimaryColor;
+$dfNodeHoverBorderRadius: 16px;
+$dfNodeSelectedBackgroundColor: $primaryColor;
+$dfNodeSelectedTextColor: white;
+$dfNodeSelectedBorderSize: 2px;
+$dfNodeSelectedBorderColor: $lightPrimaryColor;
+$dfNodeSelectedBorderRadius: 16px;
+$dfInputBackgroundColor: $primaryColor;
+$dfInputBorderSize: 2px;
+$dfInputBorderColor: $lightPrimaryColor;
+$dfInputBorderRadius: 50px;
+$dfInputLeft: -11px;
+$dfInputHeight: 20px;
+$dfInputWidth: 20px;
+$dfInputHoverBackgroundColor: $lightPrimaryColor;
+$dfInputHoverBorderSize: 0px;
+$dfInputHoverBorderColor: $primaryColor;
+$dfInputHoverBorderRadius: 50px;
+$dfOutputBackgroundColor: $primaryColor;
+$dfOutputBorderSize: 2px;
+$dfOutputBorderColor: $lightPrimaryColor;
+$dfOutputBorderRadius: 50px;
+$dfOutputRight: 9px;
+$dfOutputHeight: 20px;
+$dfOutputWidth: 20px;
+$dfOutputHoverBackgroundColor: $lightPrimaryColor;
+$dfOutputHoverBorderSize: 0px;
+$dfOutputHoverBorderColor: $primaryColor;
+$dfOutputHoverBorderRadius: 50px;
+$dfLineWidth: 5px;
+$dfLineColor: $primaryColor;
+$dfLineHoverColor: $lightPrimaryColor;
+$dfLineSelectedColor: $lightPrimaryColor;
+$dfRerouteBorderWidth: 2px;
+$dfRerouteBorderColor: rgba(57, 0, 29, 1);
+$dfRerouteBackgroundColor: #ffffff;
+$dfRerouteHoverBorderWidth: 2px;
+$dfRerouteHoverBorderColor: rgba(57, 0, 29, 1);
+$dfRerouteHoverBackgroundColor: #ffffff;
+$dfDeleteDisplay: flex;
+$dfDeleteColor: #ffffff;
+$dfDeleteBackgroundColor: $primaryColor;
+$dfDeleteBorderSize: 2px;
+$dfDeleteBorderColor: $lightPrimaryColor;
+$dfDeleteBorderRadius: 50px;
+$dfDeleteTop: -15px;
+$dfDeleteHoverColor: #ffffff;
+$dfDeleteHoverBackgroundColor: $lightPrimaryColor;
+$dfDeleteHoverBorderSize: 0px;
+$dfDeleteHoverBorderColor: rgba(57, 0, 29, 1);
+$dfDeleteHoverBorderRadius: 50px;
+
+#drawflow {
+  background: $dfBackgroundColor;
+  background-size: $dfBackgroundSize $dfBackgroundSize;
+  background-image: $dfBackgroundImage;
+}
+
+.drawflow .drawflow-node {
+  display: $dfNodeType;
+  background: $dfNodeBackgroundColor;
+  color: $dfNodeTextColor;
+  border: $dfNodeBorderSize  solid $dfNodeBorderColor;
+  border-radius: $dfNodeBorderRadius;
+  min-height: $dfNodeMinHeight;
+  width: auto;
+  min-width: $dfNodeMinWidth;
+  padding: 0;
+}
+
+.drawflow .drawflow-node:hover {
+  background: $dfNodeHoverBackgroundColor;
+  color: $dfNodeHoverTextColor;
+  border: $dfNodeHoverBorderSize  solid $dfNodeHoverBorderColor;
+  border-radius: $dfNodeHoverBorderRadius;
+}
+
+.drawflow .drawflow-node.selected {
+  background: $dfNodeSelectedBackgroundColor;
+  color: $dfNodeSelectedTextColor;
+  border: $dfNodeSelectedBorderSize  solid $dfNodeSelectedBorderColor;
+  border-radius: $dfNodeSelectedBorderRadius;
+}
+
+.drawflow .drawflow-node .input {
+  left: $dfInputLeft;
+  background: $dfInputBackgroundColor;
+  border: $dfInputBorderSize  solid $dfInputBorderColor;
+  border-radius: $dfInputBorderRadius;
+  height: $dfInputHeight;
+  width: $dfInputWidth;
+}
+
+.drawflow .drawflow-node .input:hover {
+  background: $dfInputHoverBackgroundColor;
+  border: $dfInputHoverBorderSize  solid $dfInputHoverBorderColor;
+  border-radius: $dfInputHoverBorderRadius;
+}
+
+.drawflow .drawflow-node .outputs {
+  float: $dfNodeTypeFloat;
+}
+
+.drawflow .drawflow-node .output {
+  right: $dfOutputRight;
+  background: $dfOutputBackgroundColor;
+  border: $dfOutputBorderSize  solid $dfOutputBorderColor;
+  border-radius: $dfOutputBorderRadius;
+  height: $dfOutputHeight;
+  width: $dfOutputWidth;
+}
+
+.drawflow .drawflow-node .output:hover {
+  background: $dfOutputHoverBackgroundColor;
+  border: $dfOutputHoverBorderSize  solid $dfOutputHoverBorderColor;
+  border-radius: $dfOutputHoverBorderRadius;
+}
+
+.drawflow .connection .main-path {
+  stroke-width: $dfLineWidth;
+  stroke: $dfLineColor;
+}
+
+.drawflow .connection .main-path:hover {
+  stroke: $dfLineHoverColor;
+}
+
+.drawflow .connection .main-path.selected {
+  stroke: $dfLineSelectedColor;
+}
+
+.drawflow .connection .point {
+  stroke: $dfRerouteBorderColor;
+  stroke-width: $dfRerouteBorderWidth;
+  fill: $dfRerouteBackgroundColor;
+}
+
+.drawflow .connection .point:hover {
+  stroke: $dfRerouteHoverBorderColor;
+  stroke-width: $dfRerouteHoverBorderWidth;
+  fill: $dfRerouteHoverBackgroundColor;
+}
+
+.drawflow-delete {
+  display: $dfDeleteDisplay;
+  align-items: center;
+  justify-content: center;
+  color: $dfDeleteColor;
+  background: $dfDeleteBackgroundColor;
+  border: $dfDeleteBorderSize solid $dfDeleteBorderColor;
+  border-radius: $dfDeleteBorderRadius;
+}
+
+.parent-node .drawflow-delete {
+  top: $dfDeleteTop;
+}
+
+.drawflow-delete:hover {
+  color: $dfDeleteHoverColor;
+  background: $dfDeleteHoverBackgroundColor;
+  border: $dfDeleteHoverBorderSize solid $dfDeleteHoverBorderColor;
+  border-radius: $dfDeleteHoverBorderRadius;
+}

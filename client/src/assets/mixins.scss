@@ -1,0 +1,31 @@
+@import './variables.scss';
+
+@mixin primary-container($padding: 4px) {
+  background-color: $primaryColor;
+  border: 2px solid $lightPrimaryColor;
+  border-radius: 8px;
+  color: white;
+  padding: $padding;
+  transition: background-color 100ms linear;
+
+  &:focus {
+    outline: none;
+    background-color: $lightPrimaryColor;
+  }
+}
+
+@mixin clickable-primary-container {
+  cursor: pointer;
+  transition: scale 50ms linear, background-color 100ms linear;
+  &:hover, &:focus {
+    outline: none;
+    background-color: $lightPrimaryColor;
+  }
+  &:active {
+    scale: 0.95;
+  }
+}
+
+@mixin primary-scrollbar($color: $primaryColor) {
+  scrollbar-color: $color #FFFFFF00;
+}
