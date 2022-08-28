@@ -1,0 +1,22 @@
+version: '3.1'
+
+services:
+  api:
+    image: api
+    build: .
+    restart: on-failure
+    command: "npm run start:prod"
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+    environment:
+      NODE_ENV: production
+      SERVER_PORT: ${SERVER_PORT}
+      HOST: ${HOST}
+      CLIENT_URL: ${CLIENT_URL}
+      JWT_SECRET: ${JWT_SECRET}
+      GITHUB_OAUTH_CLIENT_ID: ${GITHUB_OAUTH_CLIENT_ID}
+      GITHUB_OAUTH_CLIENT_SECRET: ${GITHUB_OAUTH_CLIENT_SECRET}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}

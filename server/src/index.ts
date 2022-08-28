@@ -12,7 +12,6 @@ dotenv.config();
 
 // DB
 const environment = process.env.NODE_ENV || 'development';
-// @ts-ignore
 const knex = Knex(knexConfig[environment]);
 Model.knex(knex);
 
@@ -36,6 +35,8 @@ app.use(rateLimiter({
 app.use(express.json());
 app.use(setUser);
 app.use('/api/v1', v1);
+
+// app.get('/',(req, res) => res.json('hello'));
 
 app.use(notFound);
 app.use(errorHandler);
