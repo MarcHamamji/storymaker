@@ -1,9 +1,9 @@
 import { Router } from "express";
 import auth from './auth';
 import { isLoggedIn } from './auth/middlewares';
-import stories from './stories/stories.routes';
-import users from './users/users.routes';
-import play from './play/play.routes';
+import stories from './stories/stories.router';
+import users from './users/users.router';
+import play from './play/play.router';
 
 const router = Router();
 
