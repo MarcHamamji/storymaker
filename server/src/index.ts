@@ -5,10 +5,9 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import dotenv from 'dotenv';
 import rateLimiter from 'express-rate-limit';
 
-dotenv.config();
+import './utils/config.ts';
 
 // DB
 const environment = process.env.NODE_ENV || 'development';
