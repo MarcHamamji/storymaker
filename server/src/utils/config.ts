@@ -5,6 +5,7 @@ dotenv.config();
 
 const schema = zod.object({
   NODE_ENV: zod.enum(['development', 'production']).default('development'),
+  HOST: zod.string(),
   SERVER_PORT: zod.string().regex(/[0-9]+/),
   CLIENT_URL: zod.string().url(),
   JWT_SECRET: zod.string(),
@@ -18,4 +19,4 @@ const schema = zod.object({
 
 const config = schema.parse(process.env);
 
-console.log(config);
+export default config;

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jsonwebtoken from 'jsonwebtoken';
 import { UserJWT } from '../../../types/types';
+import config from '../../../utils/config';
 
 export function setUser(req: Request, _res: Response, next: NextFunction) {
   const jwt = req.get('authorization');
@@ -8,7 +9,7 @@ export function setUser(req: Request, _res: Response, next: NextFunction) {
     next();
     return;
   }
-  const decoded = jsonwebtoken.verify(jwt as string, process.env.JWT_SECRET as string);
+  const decoded = jsonwebtoken.verify(jwt as string, config.JWT_SECRET as string);
   req.userJWT = decoded as UserJWT;
   next();
 }

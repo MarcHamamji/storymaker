@@ -1,13 +1,13 @@
-require('dotenv').config();
+import config from "./src/utils/config";
 
 module.exports = {
   development: {
     client: 'postgresql',
     connection: {
-      host: process.env.POSTGRES_HOST,
-      db: process.env.POSTGRES_DB,
-      user: process.env.POSTGRES_USER,
-      password: process.env.POSTGRES_PASSWORD,
+      host: config.POSTGRES_HOST,
+      db: config.POSTGRES_DB,
+      user: config.POSTGRES_USER,
+      password: config.POSTGRES_PASSWORD,
     },
     pool: {
       min: 2,
