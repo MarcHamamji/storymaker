@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Router } from "express";
 import JWT from 'jsonwebtoken';
-import User from '../../../db-models/User';
+import User from '../users/users.model';
 
 function generateJWT(id: number) {
   return JWT.sign({ id }, process.env.JWT_SECRET || 'keyboard_cat', {

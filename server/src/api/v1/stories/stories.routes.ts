@@ -1,8 +1,8 @@
 import {randomUUID} from "crypto";
 import {Router} from "express";
 
-import Story from "../../db-models/Story";
-import User from "../../db-models/User";
+import Story from "./stories.model";
+import User from "../users/users.model";
 
 const router = Router();
 

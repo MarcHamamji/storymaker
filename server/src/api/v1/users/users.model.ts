@@ -1,5 +1,5 @@
 import { Model, RelationMappings } from 'objection';
-import Story from './Story';
+import Story from '../stories/stories.model';
 
 export default class User extends Model {
   static get tableName() {
