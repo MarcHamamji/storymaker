@@ -7,18 +7,14 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import rateLimiter from 'express-rate-limit';
 
-import './utils/config.ts';
-
-// DB
-const environment = config.NODE_ENV || 'development';
-const knex = Knex(knexConfig[environment]);
-Model.knex(knex);
-
-// Express
 import { notFound, errorHandler } from './middlewares';
 import v1 from './api/v1';
 import { setUser } from './api/v1/auth/middlewares';
 import config from './utils/config';
+
+const environment = config.NODE_ENV || 'development';
+const knex = Knex(knexConfig[environment]);
+Model.knex(knex);
 
 const app = express();
 app.use(cors({
