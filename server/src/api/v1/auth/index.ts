@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { Router } from "express";
 import JWT from 'jsonwebtoken';
+import zod from 'zod';
 import config from '../../../utils/config';
-import User from '../users/users.model';
+import requestValidator from '../../../utils/RequestValidator';
+import UserModel from '../users/users.model';
 
 function generateJWT(id: number) {
   return JWT.sign({ id }, config.JWT_SECRET || 'keyboard_cat', {
@@ -21,7 +23,11 @@ router.get('/github', (_req, res) => {
   res.redirect(`https://github.com/login/oauth/authorize?${params.toString()}`)
 });
 
-router.get('/github/callback', async (req, res) => {
+router.get('/github/callback', requestValidator({
+  query: zod.object({
+    code: zod.string().min(1),
+  }),
+}), async (req, res) => {
   const { code } = req.query;
 
   const params = new URLSearchParams();
@@ -49,10 +55,10 @@ router.get('/github/callback', async (req, res) => {
     avatar_url: profile.data.avatar_url,
   }
 
-  let dbUser = await User.query().where('email', user.email).first();
+  let dbUser = await UserModel.query().where('email', user.email).first();
 
   if (!dbUser) {
-    dbUser = await User.query().insert(user);
+    dbUser = await UserModel.query().insert(user);
     console.log(`Inserted user!`);
   } else {
     console.log(`User Exists!`);

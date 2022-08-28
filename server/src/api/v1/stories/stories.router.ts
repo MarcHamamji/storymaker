@@ -1,78 +1,98 @@
-import {randomUUID} from "crypto";
-import {Router} from "express";
+import { randomUUID } from "crypto";
+import { Router } from "express";
+import zod from 'zod';
 
-import Story from "./stories.model";
-import User from "../users/users.model";
+import StoryModel from "./stories.model";
+import UserModel from "../users/users.model";
+import requestValidator from "../../../utils/RequestValidator";
+import StorySchema from "./stories.schema";
 
 const router = Router();
 
 router.get('/', async (req, res) => {
-  const stories = await Story.query()
-                      .where('user_id', req.userJWT!.id)
-                      .orderBy('updated_at', 'DESC');
+  const stories = await StoryModel.query()
+    .where('user_id', req.userJWT!.id)
+    .orderBy('updated_at', 'DESC');
 
-  res.json({stories});
+  res.json({ stories });
 });
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', requestValidator({
+  params: zod.object({
+    id: zod.string().uuid(),
+  }),
+}), async (req, res, next) => {
   try {
-    const story = await Story.query()
-                      .where('user_id', req.userJWT!.id)
-                      .where('id', req.params.id)
-                      .first();
+    const story = await StoryModel.query()
+      .where('user_id', req.userJWT!.id)
+      .where('id', req.params.id)
+      .first();
 
-    if(!story) {
+    if (!story) {
       res.status(404);
       next(new Error('Story not found'));
     }
 
-    res.json({story});
+    res.json({ story });
   } catch (error) {
     next(error);
   }
 });
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', requestValidator({
+  params: zod.object({
+    id: zod.string().uuid(),
+  }),
+  body: StorySchema,
+}), async (req, res, next) => {
   try {
-    const updated = await Story.query()
-                        .where('user_id', req.userJWT!.id)
-                        .where('id', req.params.id)
-                        .first()
-                        .patch({
-                          flow : req.body.flow,
-                        })
-    res.json({message : 'OK'});
+    const updated = await StoryModel.query()
+      .where('user_id', req.userJWT!.id)
+      .where('id', req.params.id)
+      .first()
+      .patch({
+        flow: req.body.flow,
+      })
+    res.json({ message: 'OK' });
   } catch (error) {
     next(error);
   }
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', requestValidator({
+  body: zod.object({
+    name: zod.string(),
+  }),
+}), async (req, res, next) => {
   try {
-    const user = await User.query().findById(req.userJWT!.id);
+    const user = await UserModel.query().findById(req.userJWT!.id);
     const inserted = await user?.$relatedQuery('story').insert({
-      id : randomUUID(),
-      flow : {
-        "drawflow" : {
-          "Home" : {
-            "data" : {
+      id: randomUUID(),
+      flow: {
+        "drawflow": {
+          "Home": {
+            "data": {
             }
           }
         }
       },
-      name : req.body.name,
-      user_id : req.userJWT!.id,
+      name: req.body.name,
+      user_id: req.userJWT!.id,
     });
-    res.json({story : inserted});
+    res.json({ story: inserted });
 
   } catch (error) {
     next(error);
   }
 });
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', requestValidator({
+  params: zod.object({
+    id: zod.string().uuid(),
+  }),
+}), async (req, res, next) => {
   try {
-    await User.relatedQuery('story')
+    await UserModel.relatedQuery('story')
       .for(req.userJWT!.id)
       .deleteById(req.params.id);
     res.json({ message: 'OK' });

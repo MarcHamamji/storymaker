@@ -1,6 +1,6 @@
 import { Model } from 'objection';
 
-export default class Story extends Model {
+export default class StoryModel extends Model {
   static get tableName() {
     return 'story';
   }

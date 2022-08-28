@@ -32,8 +32,6 @@ app.use(express.json());
 app.use(setUser);
 app.use('/api/v1', v1);
 
-// app.get('/',(req, res) => res.json('hello'));
-
 app.use(notFound);
 app.use(errorHandler);
 

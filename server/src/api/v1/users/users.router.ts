@@ -1,11 +1,11 @@
 import { Router } from "express";
 
-import User from "./users.model";
+import UserModel from "./users.model";
 
 const router = Router();
 
 router.get('/', async (req, res) => {
-  const user = await User.query()
+  const user = await UserModel.query()
     .findById(req.userJWT!.id);
 
   res.json({ user });

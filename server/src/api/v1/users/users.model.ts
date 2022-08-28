@@ -1,7 +1,7 @@
 import { Model, RelationMappings } from 'objection';
-import Story from '../stories/stories.model';
+import StoryModel from '../stories/stories.model';
 
-export default class User extends Model {
+export default class UserModel extends Model {
   static get tableName() {
     return 'user';
   }
@@ -16,7 +16,7 @@ export default class User extends Model {
   static relationMappings: RelationMappings = {
     story: {
       relation: Model.HasManyRelation,
-      modelClass: Story,
+      modelClass: StoryModel,
       join: {
         from: 'user.id',
         to: 'story.user_id',

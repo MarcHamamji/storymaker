@@ -14,7 +14,7 @@ export default function requestValidator(validationObject: ValidationObject) {
       const validator = validationObject[key];
       if (!validator) continue;
       try {
-        req[key] = await validator.parseAsync(req[key]);
+        req[key] = (await validator.parseAsync(req[key])) as zod.infer<typeof validator>;
       } catch (error) {
         if (error instanceof zod.ZodError) {
           res.status(400);
