@@ -25,3 +25,9 @@ export default function requestValidator(validationObject: ValidationObject) {
     next();
   };
 }
+
+export const IDParamValidator = requestValidator({
+  params: zod.object({
+    id: zod.string().uuid(),
+  }),
+});

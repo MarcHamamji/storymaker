@@ -4,7 +4,7 @@ import zod from 'zod';
 
 import StoryModel from "./stories.model";
 import UserModel from "../users/users.model";
-import requestValidator from "../../../utils/RequestValidator";
+import requestValidator, { IDParamValidator } from "../../../utils/RequestValidator";
 import StorySchema from "./stories.schema";
 
 const router = Router();
@@ -17,11 +17,7 @@ router.get('/', async (req, res) => {
   res.json({ stories });
 });
 
-router.get('/:id', requestValidator({
-  params: zod.object({
-    id: zod.string().uuid(),
-  }),
-}), async (req, res, next) => {
+router.get('/:id', IDParamValidator, async (req, res, next) => {
   try {
     const story = await StoryModel.query()
       .where('user_id', req.userJWT!.id)
@@ -86,11 +82,7 @@ router.post('/', requestValidator({
   }
 });
 
-router.delete('/:id', requestValidator({
-  params: zod.object({
-    id: zod.string().uuid(),
-  }),
-}), async (req, res, next) => {
+router.delete('/:id', IDParamValidator, async (req, res, next) => {
   try {
     await UserModel.relatedQuery('story')
       .for(req.userJWT!.id)
