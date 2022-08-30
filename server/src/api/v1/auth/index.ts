@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Router } from "express";
+import { Router } from 'express';
 import JWT from 'jsonwebtoken';
 import zod from 'zod';
 import config from '../../../utils/config';
@@ -20,7 +20,7 @@ router.get('/github', (_req, res) => {
   params.set('redirect_uri', `${config.HOST}:${config.SERVER_PORT}/api/v1/auth/github/callback`);
   params.set('scope', 'user:email');
 
-  res.redirect(`https://github.com/login/oauth/authorize?${params.toString()}`)
+  res.redirect(`https://github.com/login/oauth/authorize?${params.toString()}`);
 });
 
 router.get('/github/callback', requestValidator({
@@ -50,18 +50,18 @@ router.get('/github/callback', requestValidator({
   });
 
   const user = {
-    email: emails.data.find((email: {primary: boolean}) => email.primary).email,
+    email: emails.data.find((email: { primary: boolean }) => email.primary).email,
     name: profile.data.login,
     avatar_url: profile.data.avatar_url,
-  }
+  };
 
   let dbUser = await UserModel.query().where('email', user.email).first();
 
   if (!dbUser) {
     dbUser = await UserModel.query().insert(user);
-    console.log(`Inserted user!`);
+    console.log('Inserted user!');
   } else {
-    console.log(`User Exists!`);
+    console.log('User Exists!');
   }
 
   const jwt = generateJWT(dbUser.id);

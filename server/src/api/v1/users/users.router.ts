@@ -1,6 +1,6 @@
-import { Router } from "express";
+import { Router } from 'express';
 
-import UserModel from "./users.model";
+import UserModel from './users.model';
 
 const router = Router();
 
@@ -15,4 +15,3 @@ router.get('/', async (req, res, next) => {
 });
 
 export default router;
-

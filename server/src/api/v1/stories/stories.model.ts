@@ -6,10 +6,15 @@ export default class StoryModel extends Model {
   }
 
   id!: string;
+
   user_id!: number;
+
   name!: string;
+
   flow!: object;
+
   created_at!: string;
+
   updated_at!: string;
 
   $beforeInsert() {
@@ -21,4 +26,3 @@ export default class StoryModel extends Model {
     this.updated_at = new Date().toISOString();
   }
 }
-

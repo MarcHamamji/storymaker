@@ -7,10 +7,15 @@ export default class UserModel extends Model {
   }
 
   id!: number;
+
   name!: string;
+
   email!: string;
+
   avatar_url!: string;
+
   created_at!: string;
+
   updated_at!: string;
 
   static relationMappings: RelationMappings = {
@@ -20,9 +25,9 @@ export default class UserModel extends Model {
       join: {
         from: 'user.id',
         to: 'story.user_id',
-      }
-    }
-  }
+      },
+    },
+  };
 
   $beforeInsert() {
     this.created_at = new Date().toISOString();

@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router } from 'express';
 import auth from './auth';
 import { isLoggedIn } from './auth/middlewares';
 import stories from './stories/stories.router';

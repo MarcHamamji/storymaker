@@ -1,11 +1,11 @@
-import { randomUUID } from "crypto";
-import { Router } from "express";
+import { randomUUID } from 'crypto';
+import { Router } from 'express';
 import zod from 'zod';
 
-import StoryModel from "./stories.model";
-import UserModel from "../users/users.model";
-import requestValidator, { IDParamValidator } from "../../../utils/RequestValidator";
-import StorySchema from "./stories.schema";
+import StoryModel from './stories.model';
+import UserModel from '../users/users.model';
+import requestValidator, { IDParamValidator } from '../../../utils/RequestValidator';
+import StorySchema from './stories.schema';
 
 const router = Router();
 
@@ -45,13 +45,13 @@ router.put('/:id', requestValidator({
   body: StorySchema,
 }), async (req, res, next) => {
   try {
-    const updated = await StoryModel.query()
+    await StoryModel.query()
       .where('user_id', req.userJWT!.id)
       .where('id', req.params.id)
       .first()
       .patch({
         flow: req.body.flow,
-      })
+      });
     res.json({ message: 'OK' });
   } catch (error) {
     next(error);
@@ -68,18 +68,17 @@ router.post('/', requestValidator({
     const inserted = await user?.$relatedQuery('story').insert({
       id: randomUUID(),
       flow: {
-        "drawflow": {
-          "Home": {
-            "data": {
-            }
-          }
-        }
+        drawflow: {
+          Home: {
+            data: {
+            },
+          },
+        },
       },
       name: req.body.name,
       user_id: req.userJWT!.id,
     });
     res.json({ story: inserted });
-
   } catch (error) {
     next(error);
   }

@@ -9,7 +9,7 @@
     "dev": "nodemon src/index.ts",
     "migrate": "knex migrate:latest",
     "rollback": "knex migrate:rollback",
-    "lint": "eslint --fix ./src/**/*.ts"
+    "lint": "eslint --fix ./src/**/*"
   },
   "author": "Marc Hamamji",
   "license": "MIT",

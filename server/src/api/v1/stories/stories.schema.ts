@@ -6,6 +6,7 @@ const StorySchema = zod.object({
   flow: zod.any().optional(),
 });
 
-type StorySchema = zod.infer<typeof StorySchema>
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+type StorySchema = zod.infer<typeof StorySchema>;
 
 export default StorySchema;

@@ -1,6 +1,6 @@
-import { Router } from "express";
-import { IDParamValidator } from "../../../utils/RequestValidator";
-import StoryModel from "../stories/stories.model";
+import { Router } from 'express';
+import { IDParamValidator } from '../../../utils/RequestValidator';
+import StoryModel from '../stories/stories.model';
 
 const router = Router();
 
@@ -16,4 +16,3 @@ router.get('/:id', IDParamValidator, async (req, res, next) => {
 });
 
 export default router;
-

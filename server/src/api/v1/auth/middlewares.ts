@@ -19,5 +19,5 @@ export function isLoggedIn(req: Request, res: Response, next: NextFunction) {
     return next();
   }
   res.status(401);
-  return next(new Error("Un-Authorized"));
+  return next(new Error('Un-Authorized'));
 }
