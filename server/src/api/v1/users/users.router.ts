@@ -10,7 +10,6 @@ router.get('/', async (req, res, next) => {
       .findById(req.userJWT!.id);
     res.json({ user });
   } catch (error) {
-    res.status(500);
     next(error);
   }
 });

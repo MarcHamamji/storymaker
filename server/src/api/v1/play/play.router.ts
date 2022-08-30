@@ -11,7 +11,6 @@ router.get('/:id', IDParamValidator, async (req, res, next) => {
 
     res.json({ story });
   } catch (error) {
-    res.status(500);
     next(error);
   }
 });

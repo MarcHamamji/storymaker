@@ -16,7 +16,6 @@ router.get('/', async (req, res, next) => {
       .orderBy('updated_at', 'DESC');
     res.json({ stories });
   } catch (error) {
-    res.status(500);
     next(error);
   }
 });
@@ -35,7 +34,6 @@ router.get('/:id', IDParamValidator, async (req, res, next) => {
 
     res.json({ story });
   } catch (error) {
-    res.status(500);
     next(error);
   }
 });
@@ -56,7 +54,6 @@ router.put('/:id', requestValidator({
       })
     res.json({ message: 'OK' });
   } catch (error) {
-    res.status(500);
     next(error);
   }
 });
@@ -84,7 +81,6 @@ router.post('/', requestValidator({
     res.json({ story: inserted });
 
   } catch (error) {
-    res.status(500);
     next(error);
   }
 });
@@ -96,7 +92,6 @@ router.delete('/:id', IDParamValidator, async (req, res, next) => {
       .deleteById(req.params.id);
     res.json({ message: 'OK' });
   } catch (error) {
-    res.status(500);
     next(error);
   }
 });
