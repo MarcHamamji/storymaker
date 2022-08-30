@@ -8,7 +8,8 @@
     "start:prod": "tsc && node dist/src/index.js",
     "dev": "nodemon src/index.ts",
     "migrate": "knex migrate:latest",
-    "rollback": "knex migrate:rollback"
+    "rollback": "knex migrate:rollback",
+    "lint": "eslint --fix ./src/**/*.ts"
   },
   "author": "Marc Hamamji",
   "license": "MIT",
