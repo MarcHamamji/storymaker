@@ -1,5 +1,4 @@
-import { Knex } from "knex";
-
+import { Knex } from 'knex';
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable('user', (table) => {
@@ -12,15 +11,16 @@ export async function up(knex: Knex): Promise<void> {
     table.timestamps(false, true);
     table.uuid('id').primary();
     table.string('name').notNullable();
-    table.integer('user_id').unsigned().references('id').inTable('user').index().onDelete('CASCADE').notNullable();
+    table.integer('user_id').unsigned().references('id').inTable('user')
+      .index()
+      .onDelete('CASCADE')
+      .notNullable();
     table.json('flow').notNullable();
   });
 }
-
 
 export async function down(knex: Knex): Promise<void> {
   return knex.schema
     .dropTableIfExists('story')
     .dropTableIfExists('user');
 }
-
