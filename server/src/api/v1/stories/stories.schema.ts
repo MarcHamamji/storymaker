@@ -1,9 +1,9 @@
 import zod from 'zod';
+import FlowSchema from './flow.schema';
 
 const StorySchema = zod.object({
   name: zod.string().optional(),
-  // TODO: write a flow validator
-  flow: zod.any().optional(),
+  flow: FlowSchema.optional(),
 });
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare

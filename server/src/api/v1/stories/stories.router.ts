@@ -6,6 +6,7 @@ import StoryModel from './stories.model';
 import UserModel from '../users/users.model';
 import requestValidator, { IDParamValidator } from '../../../utils/RequestValidator';
 import StorySchema from './stories.schema';
+import FlowSchema from './flow.schema';
 
 const router = Router();
 
@@ -38,7 +39,7 @@ router.get('/:id', IDParamValidator, async (req, res, next) => {
   }
 });
 
-router.put('/:id', requestValidator({
+router.patch('/:id', requestValidator({
   params: zod.object({
     id: zod.string().uuid(),
   }),
@@ -50,7 +51,8 @@ router.put('/:id', requestValidator({
       .where('id', req.params.id)
       .first()
       .patch({
-        flow: req.body.flow,
+        flow: (req.body as StorySchema).flow,
+        name: (req.body as StorySchema).name,
       });
     res.json({ message: 'OK' });
   } catch (error) {
