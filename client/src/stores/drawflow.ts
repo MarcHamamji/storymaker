@@ -20,7 +20,7 @@ const useDrawflow = defineStore({
       }
       const api = useAPI();
       const response = await api.fetch(`${api.serverURL}/api/v1/stories/${storyId}`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
           'content-type': 'application/json',
         },
@@ -30,9 +30,7 @@ const useDrawflow = defineStore({
       });
       const json = await response.json();
 
-      if (json.message === 'OK') {
-
-      } else {
+      if (json.message !== 'OK') {
         throw new Error('Unable to save story');
       }
     },
