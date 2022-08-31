@@ -15,7 +15,6 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
-import variables from '../../assets/variables.scss';
 
 export default defineComponent({
   props: {
@@ -25,6 +24,7 @@ export default defineComponent({
     },
     background: {
       type: String,
+      default: undefined,
     },
     disabled: {
       type: Boolean,

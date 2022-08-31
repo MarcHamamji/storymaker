@@ -22,5 +22,7 @@ module.exports = {
   ],
   rules: {
     'no-console': 0,
+    'vue/multi-word-component-names': 0,
+    'max-len': 0,
   },
 };

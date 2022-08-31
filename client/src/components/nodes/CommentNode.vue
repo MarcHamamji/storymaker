@@ -34,7 +34,7 @@ import {
   watch,
 } from 'vue';
 import Node from './Node.vue';
-import useStore from '@/stores/drawflow';
+import useStore from '../../stores/drawflow';
 import NodePreview from './utils/NodePreview.vue';
 
 interface Data {
