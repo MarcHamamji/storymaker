@@ -4,9 +4,7 @@
     :message="snackbarMessage"
   />
   <pop-up v-if="isDeletePopupOpen">
-    <div
-      class="popup"
-    >
+    <div class="popup">
       <div class="title">
         <h3>
           Are you sure you want to delete the story "{{ deleteStory!.name }}"
@@ -17,27 +15,7 @@
           class="close"
           @click="isDeletePopupOpen = false"
         >
-          <svg
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-            stroke="currentColor"
-            stroke-width="2"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="css-i6dzq1"
-          ><line
-            x1="18"
-            y1="6"
-            x2="6"
-            y2="18"
-          /><line
-            x1="6"
-            y1="6"
-            x2="18"
-            y2="18"
-          /></svg>
+          <x-icon />
         </button>
       </div>
       <div class="buttons">
@@ -71,27 +49,7 @@
           class="close"
           @click="isCreatePopupOpen = false"
         >
-          <svg
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-            stroke="currentColor"
-            stroke-width="2"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="css-i6dzq1"
-          ><line
-            x1="18"
-            y1="6"
-            x2="6"
-            y2="18"
-          /><line
-            x1="6"
-            y1="6"
-            x2="18"
-            y2="18"
-          /></svg>
+          <x-icon />
         </button>
       </div>
       <input
@@ -120,9 +78,7 @@
       </template>
     </nav-bar>
     <div class="content">
-      <container
-        class="container"
-      >
+      <container class="container">
         <div class="title">
           <h2>
             Stories
@@ -132,27 +88,7 @@
             class="add"
             @click="isCreatePopupOpen = true;"
           >
-            <svg
-              viewBox="0 0 24 24"
-              width="24"
-              height="24"
-              stroke="currentColor"
-              stroke-width="2"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="css-i6dzq1"
-            ><line
-              x1="12"
-              y1="5"
-              x2="12"
-              y2="19"
-            /><line
-              x1="5"
-              y1="12"
-              x2="19"
-              y2="12"
-            /></svg>
+            <plus-icon />
           </button>
         </div>
         <div
@@ -179,17 +115,7 @@
                 class="delete"
                 @click="onDelete(story)"
               >
-                <svg
-                  viewBox="0 0 24 24"
-                  width="20"
-                  height="20"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="css-i6dzq1"
-                ><polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
+                <trash-icon />
               </button>
             </div>
           </div>
@@ -214,6 +140,9 @@ import useStories from '../stores/stories';
 import PopUp from '../components/PopUp.vue';
 import UserInfo from '../components/UserInfo.vue';
 import SnackBar from '../components/SnackBar.vue';
+import XIcon from '../components/icons/XIcon.vue';
+import PlusIcon from '../components/icons/PlusIcon.vue';
+import TrashIcon from '../components/icons/TrashIcon.vue';
 
 import type Story from '../types/Story';
 
@@ -224,6 +153,9 @@ export default defineComponent({
     PopUp,
     UserInfo,
     SnackBar,
+    XIcon,
+    PlusIcon,
+    TrashIcon,
   },
   setup() {
     const api = useAPI();
@@ -406,7 +338,7 @@ export default defineComponent({
               @include clickable-primary-container;
             }
 
-            .open{
+            .open {
               flex-grow: 1;
               font-size: 16px;
             }

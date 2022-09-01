@@ -11,42 +11,7 @@
           class="dashboard"
         >
           <button>
-            <svg
-              viewBox="0 0 24 24"
-              width="24"
-              height="24"
-              stroke="currentColor"
-              stroke-width="2"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="css-i6dzq1"
-            >
-              <rect
-                x="3"
-                y="3"
-                width="7"
-                height="7"
-              />
-              <rect
-                x="14"
-                y="3"
-                width="7"
-                height="7"
-              />
-              <rect
-                x="14"
-                y="14"
-                width="7"
-                height="7"
-              />
-              <rect
-                x="3"
-                y="14"
-                width="7"
-                height="7"
-              />
-            </svg>
+            <dashboard-icon />
           </button>
         </router-link>
         <h3 style="display: inline;">
@@ -107,75 +72,13 @@
           class="zoom zoom-in"
           @click="zoomIn"
         >
-          <svg
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-            stroke="currentColor"
-            stroke-width="2"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="css-i6dzq1"
-          >
-            <circle
-              cx="11"
-              cy="11"
-              r="8"
-            />
-            <line
-              x1="21"
-              y1="21"
-              x2="16.65"
-              y2="16.65"
-            />
-            <line
-              x1="11"
-              y1="8"
-              x2="11"
-              y2="14"
-            />
-            <line
-              x1="8"
-              y1="11"
-              x2="14"
-              y2="11"
-            />
-          </svg>
+          <zoom-in-icon />
         </button>
         <button
           class="zoom zoom-out"
           @click="zoomOut"
         >
-          <svg
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-            stroke="currentColor"
-            stroke-width="2"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="css-i6dzq1"
-          >
-            <circle
-              cx="11"
-              cy="11"
-              r="8"
-            />
-            <line
-              x1="21"
-              y1="21"
-              x2="16.65"
-              y2="16.65"
-            />
-            <line
-              x1="8"
-              y1="11"
-              x2="14"
-              y2="11"
-            />
-          </svg>
+          <zoom-out-icon />
         </button>
         <div
           id="drawflow"
@@ -204,6 +107,9 @@ import NavBar from '../components/NavBar.vue';
 import UserInfo from '../components/UserInfo.vue';
 import SnackBar from '../components/SnackBar.vue';
 import useStories from '../stores/stories';
+import DashboardIcon from '../components/icons/DashboardIcon.vue';
+import ZoomInIcon from '../components/icons/ZoomInIcon.vue';
+import ZoomOutIcon from '../components/icons/ZoomOutIcon.vue';
 
 export default defineComponent({
   components: {
@@ -211,6 +117,9 @@ export default defineComponent({
     NavBar,
     UserInfo,
     SnackBar,
+    DashboardIcon,
+    ZoomInIcon,
+    ZoomOutIcon,
   },
   setup() {
     const drawflowElement = ref<HTMLDivElement>();
