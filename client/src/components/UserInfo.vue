@@ -33,6 +33,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/mixins.scss';
+
 .box {
   height: 100%;
   display: flex;
@@ -49,6 +51,8 @@ export default defineComponent({
     height: 100%;
     border-radius: 8px;
     margin-left: 8px;
+
+    @include primary-container(0);
   }
 }
 </style>
