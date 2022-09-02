@@ -51,6 +51,14 @@ const FlowSchema = zod.object({
       ),
     }),
   }),
+}).refine((flow) => {
+  const nodes = Object.values(flow.drawflow.Home.data).filter((node) => node.class === 'StartNode');
+  if (nodes.length !== 1) return false;
+  const startNode = nodes[0];
+  if (startNode.outputs.output_1.connections.length !== 1) return false;
+  return true;
+}, {
+  message: 'The story should contain exactly one "Start" node.',
 });
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare

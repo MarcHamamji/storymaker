@@ -31,7 +31,7 @@ const useDrawflow = defineStore({
       const json = await response.json();
 
       if (json.message !== 'OK') {
-        throw new Error('Unable to save story');
+        throw new Error(json.message || 'Unable to save story');
       }
     },
   },
