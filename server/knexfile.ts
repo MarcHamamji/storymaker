@@ -1,4 +1,4 @@
-import config from "./src/utils/config";
+import config from './src/utils/config';
 
 module.exports = {
   development: {
@@ -11,11 +11,11 @@ module.exports = {
     },
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
     migrations: {
-      directory: './src/migrations/'
-    }
-  }
+      directory: './src/migrations/',
+    },
+  },
 
 };

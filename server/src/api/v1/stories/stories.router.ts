@@ -6,7 +6,6 @@ import StoryModel from './stories.model';
 import UserModel from '../users/users.model';
 import requestValidator, { IDParamValidator } from '../../../utils/RequestValidator';
 import StorySchema from './stories.schema';
-import FlowSchema from './flow.schema';
 
 const router = Router();
 
