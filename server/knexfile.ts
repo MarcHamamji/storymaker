@@ -8,6 +8,7 @@ module.exports = {
       db: config.POSTGRES_DB,
       user: config.POSTGRES_USER,
       password: config.POSTGRES_PASSWORD,
+      port: config.POSTGRES_PORT,
     },
     pool: {
       min: 2,
@@ -24,6 +25,7 @@ module.exports = {
       db: config.POSTGRES_DB,
       user: config.POSTGRES_USER,
       password: config.POSTGRES_PASSWORD,
+      port: config.POSTGRES_PORT,
     },
     pool: {
       min: 2,
