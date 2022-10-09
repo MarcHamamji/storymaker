@@ -1,6 +1,6 @@
 # Storymaker
 
-Deplyed [here](https://story-maker.surge.sh/#/)
+Deplyed [here](https://storymaker-mh.vercel.app/#/)
 
 ---
 
