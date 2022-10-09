@@ -74,7 +74,7 @@
         </h3>
       </template>
       <template #end>
-        <user-info />
+        <user-info :logout="true" />
       </template>
     </nav-bar>
     <div class="content">
@@ -133,10 +133,10 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import NavBar from '../components/NavBar.vue';
-import Container from '../components/Container.vue';
 import useAPI from '../stores/api';
 import useStories from '../stores/stories';
+import NavBar from '../components/NavBar.vue';
+import Container from '../components/Container.vue';
 import PopUp from '../components/PopUp.vue';
 import UserInfo from '../components/UserInfo.vue';
 import SnackBar from '../components/SnackBar.vue';

@@ -1,3 +1,4 @@
+import router from '@/router';
 import { defineStore } from 'pinia';
 import useAPI from './api';
 
@@ -13,7 +14,7 @@ export interface User {
 const useUser = defineStore({
   id: 'user',
   state: () => ({
-    user: {} as User,
+    user: null as User | null,
   }),
   actions: {
     async refreshUser() {
@@ -25,11 +26,19 @@ const useUser = defineStore({
 
       const json = await response.json();
       if (json.message === 'jwt expired') {
-        window.localStorage.removeItem('jwt');
+        this.deleteJWT();
         return;
       }
 
-      this.user = json.user;
+      this.user = json?.user;
+    },
+    deleteJWT() {
+      window.localStorage.removeItem('jwt');
+    },
+    logout() {
+      this.deleteJWT();
+      this.refreshUser();
+      router.push('/');
     },
   },
 });

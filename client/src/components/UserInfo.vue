@@ -10,22 +10,45 @@
       :src="user.user.avatar_url"
       alt="avatar"
     >
+    <div
+      v-if="logout"
+      class="logout"
+      title="Logout"
+      @click="onLogout"
+    >
+      <logout-icon />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import useUser from '../stores/user';
+import LogoutIcon from './icons/LogoutIcon.vue';
 
 export default defineComponent({
+  components: {
+    LogoutIcon,
+  },
+  props: {
+    logout: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup() {
     const user = useUser();
     if (!user.user.id) {
       user.refreshUser();
     }
 
+    const onLogout = () => {
+      user.logout();
+    };
+
     return {
       user,
+      onLogout,
     };
   },
 });
@@ -51,8 +74,16 @@ export default defineComponent({
     height: 100%;
     border-radius: 8px;
     margin-left: 8px;
-
     @include primary-container(0);
+  }
+
+  .logout {
+    margin-left: 6px;
+    @include primary-container;
+    @include clickable-primary-container;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 </style>

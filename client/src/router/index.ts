@@ -6,6 +6,7 @@ import LoginSuccess from '../views/LoginSuccess.vue';
 import Play from '../views/Play.vue';
 import NotFound from '../views/NotFound.vue';
 import useAPI from '../stores/api';
+import useUser from '@/stores/user';
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -46,6 +47,8 @@ const router = createRouter({
 const restricted = ['dashboard', 'story'];
 
 router.beforeEach(async (to, _from, next) => {
+  const user = useUser();
+  await user.refreshUser();
   const api = useAPI();
   const isLoggedIn = await api.isLoggedIn();
 

@@ -18,15 +18,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '../assets/mixins.scss';
 
-@keyframes scaleUp {
-  from {
-    transform: scale(0.5);
-  }
-  to {
-    transform: scale(1);
-  }
-}
-
 .overlay {
   position: fixed;
   top: 0;
@@ -40,7 +31,7 @@ export default defineComponent({
   justify-content: center;
 
   .container {
-    animation: scaleUp 200ms cubic-bezier(.25,.77,.72,1.15);
+    animation: appear 300ms ease-out;
   }
 }
 </style>
