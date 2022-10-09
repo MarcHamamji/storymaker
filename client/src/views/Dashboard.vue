@@ -96,8 +96,8 @@
           class="cards"
         >
           <div
-            v-for="(story, index) in stories.stories"
-            :key="index"
+            v-for="story in stories.stories"
+            :key="story.id"
             class="storycard"
           >
             <h2 class="name">
