@@ -1,5 +1,8 @@
 <template>
-  <div class="box">
+  <div
+    v-if="user.user"
+    class="box"
+  >
     <div class="text">
       <span>
         {{ user.user.name }}
