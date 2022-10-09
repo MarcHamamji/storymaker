@@ -164,6 +164,7 @@ export default defineComponent({
     .choice-delete {
       @include primary-container;
       @include clickable-primary-container;
+      font-size: 26px;
       display: inline;
       color: white;
       height: 28px;
@@ -178,6 +179,7 @@ export default defineComponent({
   .choice-add {
     @include primary-container;
     @include clickable-primary-container;
+    font-size: 20px;
     color: white;
     display: flex;
     align-items: center;
