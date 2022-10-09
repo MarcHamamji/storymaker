@@ -41,7 +41,7 @@ export default defineComponent({
   },
   setup() {
     const user = useUser();
-    if (!user.user.id) {
+    if (!user.user?.id) {
       user.refreshUser();
     }
 
