@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, watch } from 'vue';
+import { defineComponent, computed, watch, ref } from 'vue';
 import XIcon from './icons/XIcon.vue';
 
 export default defineComponent({
@@ -35,6 +35,8 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, ctx) {
+    const timeout = ref<number>();
+
     const enabled = computed({
       get() {
         return props.modelValue;
@@ -43,13 +45,26 @@ export default defineComponent({
         return ctx.emit('update:modelValue', value);
       },
     });
+
     watch(enabled, () => {
+      console.log('ENABLED CHANGED');
       if (enabled.value === true) {
-        setTimeout(() => {
+        clearTimeout(timeout.value);
+        timeout.value = setTimeout(() => {
           enabled.value = false;
         }, 5000);
       }
     });
+
+    watch(() => props.message, () => {
+      if (enabled.value === true) {
+        clearTimeout(timeout.value);
+        timeout.value = setTimeout(() => {
+          enabled.value = false;
+        }, 5000);
+      }
+    });
+
     return {
       enabled,
     };
