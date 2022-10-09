@@ -24,6 +24,10 @@ const useUser = defineStore({
       });
 
       const json = await response.json();
+      if (json.message === 'jwt expired') {
+        window.localStorage.removeItem('jwt');
+        return;
+      }
 
       this.user = json.user;
     },
