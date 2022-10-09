@@ -15,7 +15,9 @@
     <div
       class="text"
     >
-      {{ currentNode.data.description }}
+      <div class="description">
+        {{ currentNode.data.description }}
+      </div>
     </div>
     <div class="choices">
       <button
@@ -117,6 +119,11 @@ export default defineComponent({
     text-align: justify;
     overflow-y: scroll;
     @include primary-scrollbar;
+
+    .description {
+      animation: appear 300ms ease-out;
+    }
+
   }
 
   .choices {

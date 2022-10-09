@@ -1,16 +1,5 @@
 @import './variables.scss';
-
-@keyframes appear {
-  from {
-    transform: translateY(10%);
-    opacity: 0;
-  }
-
-  to {
-    transform: none;
-    opacity: 1;
-  }
-}
+@import './keyframes.scss';
 
 @mixin primary-container($padding: 4px) {
   background-color: $primaryColor;
