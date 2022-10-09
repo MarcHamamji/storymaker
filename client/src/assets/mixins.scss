@@ -1,5 +1,17 @@
 @import './variables.scss';
 
+@keyframes appear {
+  from {
+    transform: translateY(10%);
+    opacity: 0;
+  }
+
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
 @mixin primary-container($padding: 4px) {
   background-color: $primaryColor;
   border: 2px solid $lightPrimaryColor;
@@ -12,6 +24,10 @@
     outline: none;
     background-color: $lightPrimaryColor;
   }
+}
+
+@mixin animated-primary-container {
+  animation: appear 300ms ease-out;
 }
 
 @mixin clickable-primary-container {

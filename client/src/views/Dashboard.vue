@@ -323,6 +323,7 @@ export default defineComponent({
           padding: 18px !important;
           width: 320px;
           @include primary-container;
+          @include animated-primary-container;
 
           .name {
             margin-bottom: 12px;
