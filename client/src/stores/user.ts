@@ -1,5 +1,6 @@
-import router from '@/router';
 import { defineStore } from 'pinia';
+import { ref } from 'vue';
+import router from '../router';
 import useAPI from './api';
 
 export interface User {
@@ -11,36 +12,41 @@ export interface User {
   avatar_url: string,
 }
 
-const useUser = defineStore({
-  id: 'user',
-  state: () => ({
-    user: null as User | null,
-  }),
-  actions: {
-    async refreshUser() {
-      const api = useAPI();
+const useUser = defineStore('user', () => {
+  const user = ref<User | null>(null);
 
-      const response = await api.fetch(`${api.serverURL}/api/v1/users`, {
-        method: 'GET',
-      });
+  function deleteJWT() {
+    window.localStorage.removeItem('jwt');
+  }
 
-      const json = await response.json();
-      if (json.message === 'jwt expired') {
-        this.deleteJWT();
-        return;
-      }
+  async function refreshUser() {
+    const api = useAPI();
 
-      this.user = json?.user;
-    },
-    deleteJWT() {
-      window.localStorage.removeItem('jwt');
-    },
-    logout() {
-      this.deleteJWT();
-      this.refreshUser();
-      router.push('/');
-    },
-  },
+    const response = await api.fetch(`${api.serverURL}/api/v1/users`, {
+      method: 'GET',
+    });
+
+    const json = await response.json();
+    if (json.message === 'jwt expired') {
+      deleteJWT();
+      return;
+    }
+
+    user.value = json?.user;
+  }
+
+  function logout() {
+    deleteJWT();
+    refreshUser();
+    router.push('/');
+  }
+
+  return {
+    user,
+    refreshUser,
+    deleteJWT,
+    logout,
+  };
 });
 
 export default useUser;
