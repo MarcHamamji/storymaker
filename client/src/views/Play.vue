@@ -127,8 +127,10 @@ export default defineComponent({
   }
 
   .choices {
-    @include primary-container;
-    border-radius: 0;
+    position: fixed;
+    bottom: 0;
+    left:0;
+    width: 100vw;
     display: flex;
     padding: 16px;
     gap: 8px;
@@ -141,6 +143,7 @@ export default defineComponent({
       min-height: 58px;
       @include primary-container;
       @include clickable-primary-container;
+      @include animated-primary-container;
     }
   }
 
