@@ -12,6 +12,11 @@ const grantConfig: GrantConfig = {
     client_secret: config.GITHUB_OAUTH_CLIENT_SECRET,
     scope: ['user:email'],
   },
+  google: {
+    client_id: config.GOOGLE_OAUTH_CLIENT_ID,
+    client_secret: config.GOOGLE_OAUTH_CLIENT_SECRET,
+    scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email'],
+  },
 };
 
 export default grantConfig;

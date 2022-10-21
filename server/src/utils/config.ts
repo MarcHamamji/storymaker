@@ -12,6 +12,8 @@ const schema = zod.object({
   COOKIE_SECRET: zod.string().min(1),
   GITHUB_OAUTH_CLIENT_ID: zod.string().min(1),
   GITHUB_OAUTH_CLIENT_SECRET: zod.string().min(1),
+  GOOGLE_OAUTH_CLIENT_ID: zod.string().min(1),
+  GOOGLE_OAUTH_CLIENT_SECRET: zod.string().min(1),
   POSTGRES_HOST: zod.string().min(1),
   POSTGRES_USER: zod.string().min(1),
   POSTGRES_PASSWORD: zod.string().min(1),

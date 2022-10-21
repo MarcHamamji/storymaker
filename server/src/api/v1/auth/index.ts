@@ -10,41 +10,75 @@ function generateJWT(id: number) {
   });
 }
 
-// Connection URL: http://192.168.1.111:5555/api/v1/auth/github
-// Callback URL: http://192.168.1.111:5555/api/v1/auth/github/callback
+interface UserProfile {
+  email: string;
+  name: string,
+  avatar_url: string,
+}
+
+async function createOrGetUser(profile: UserProfile) {
+  let dbUser = await UserModel.query().where('email', profile.email).first();
+
+  if (!dbUser) {
+    dbUser = await UserModel.query().insert(profile);
+    console.log('Inserted user!');
+  } else {
+    console.log('User Exists!');
+  }
+  return dbUser;
+}
+
+// Connection URL: http://localhost:5555/api/v1/auth/provider
+// Callback URL: http://localhost:5555/api/v1/auth/provider/callback
 
 const router = Router();
+
+router.get('/google/callback', async (req, res) => {
+  const grantResponse = (req.session as any).grant;
+
+  const response = await axios.get('https://www.googleapis.com/userinfo/v2/me', {
+    headers: {
+      Authorization: `Bearer ${grantResponse.response.raw.access_token}`,
+    },
+  });
+
+  const profile = {
+    email: response.data.email,
+    name: response.data.name,
+    avatar_url: response.data.picture,
+  };
+
+  const dbUser = await createOrGetUser(profile);
+
+  const jwt = generateJWT(dbUser.id);
+
+  res.redirect(`${config.CLIENT_URL}/#/success?jwt=${jwt}`);
+});
 
 router.get('/github/callback', async (req, res) => {
   const grantResponse = (req.session as any).grant;
   const accessToken = grantResponse.response.access_token;
 
-  const profile = await axios.get('https://api.github.com/user', {
-    headers: {
-      Authorization: `token ${accessToken}`,
-    },
-  });
+  const [user, emails] = await Promise.all([
+    axios.get('https://api.github.com/user', {
+      headers: {
+        Authorization: `token ${accessToken}`,
+      },
+    }),
+    axios.get('https://api.github.com/user/emails', {
+      headers: {
+        Authorization: `token ${accessToken}`,
+      },
+    }),
+  ]);
 
-  const emails = await axios.get('https://api.github.com/user/emails', {
-    headers: {
-      Authorization: `token ${accessToken}`,
-    },
-  });
-
-  const user = {
+  const profile = {
     email: emails.data.find((email: { primary: boolean }) => email.primary).email,
-    name: profile.data.login,
-    avatar_url: profile.data.avatar_url,
+    name: user.data.login,
+    avatar_url: user.data.avatar_url,
   };
 
-  let dbUser = await UserModel.query().where('email', user.email).first();
-
-  if (!dbUser) {
-    dbUser = await UserModel.query().insert(user);
-    console.log('Inserted user!');
-  } else {
-    console.log('User Exists!');
-  }
+  const dbUser = await createOrGetUser(profile);
 
   const jwt = generateJWT(dbUser.id);
 
