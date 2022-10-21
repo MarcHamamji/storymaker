@@ -7,7 +7,7 @@
     <div class="popup">
       <div class="title">
         <h3>
-          Are you sure you want to delete the story "{{ popups.delete.storyId!.name }}"
+          Are you sure you want to delete this story?
         </h3>
         <div style="flex-grow: 1;" />
         <button
@@ -126,8 +126,6 @@ import XIcon from '../components/icons/XIcon.vue';
 import PlusIcon from '../components/icons/PlusIcon.vue';
 import StoryCard from '../components/StoryCard.vue';
 
-import type Story from '../types/Story';
-
 export default defineComponent({
   components: {
     NavBar,
@@ -149,8 +147,8 @@ export default defineComponent({
       },
       delete: {
         open: false,
-        storyId: null as string | null
-      }
+        storyId: null as string | null,
+      },
     });
 
     const isSnackBarOpen = ref(false);
@@ -192,11 +190,7 @@ export default defineComponent({
       stories,
       openStory,
       onCreate,
-      // newStoryName,
-      // isCreatePopupOpen,
-      // isDeletePopupOpen,
       onDelete,
-      // deleteStory,
       onConfirmDelete,
       isSnackBarOpen,
       snackbarMessage,
