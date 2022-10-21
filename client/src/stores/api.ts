@@ -15,7 +15,7 @@ const useAPI = defineStore('api', () => {
   }
 
   async function isLoggedIn() {
-    const response = await fetch(`${serverURL.value}/api/v1/ping`, {
+    const response = await customFetch(`${serverURL.value}/api/v1/ping`, {
       method: 'GET',
     });
     return response.status === 200;
