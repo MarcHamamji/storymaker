@@ -18,10 +18,17 @@
         <h2>Login</h2>
         <button
           class="login"
-          @click="login"
+          @click="login('google')"
         >
-          Login with Github
+          <google-icon />
+          Login with Google
+        </button>
+        <button
+          class="login"
+          @click="login('github')"
+        >
           <github-icon />
+          Login with Github
         </button>
       </container>
     </div>
@@ -35,6 +42,7 @@ import Container from '../components/Container.vue';
 import useAPI from '../stores/api';
 import UserInfo from '../components/UserInfo.vue';
 import GithubIcon from '../components/icons/GithubIcon.vue';
+import GoogleIcon from '../components/icons/GoogleIcon.vue';
 
 export default defineComponent({
   components: {
@@ -42,12 +50,13 @@ export default defineComponent({
     Container,
     UserInfo,
     GithubIcon,
+    GoogleIcon,
   },
   setup() {
     const API = useAPI();
 
-    const login = () => {
-      window.location.href = `${API.serverURL}/api/v1/auth/github`;
+    const login = (provider: string) => {
+      window.location.href = `${API.serverURL}/api/v1/auth/${provider}`;
     };
 
     const isLoggedIn = !!window.localStorage.getItem('jwt');
