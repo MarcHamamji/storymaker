@@ -3,17 +3,17 @@
     v-model="isSnackBarOpen"
     :message="snackbarMessage"
   />
-  <pop-up v-if="isDeletePopupOpen">
+  <pop-up v-if="popups.delete.open">
     <div class="popup">
       <div class="title">
         <h3>
-          Are you sure you want to delete the story "{{ deleteStory!.name }}"
+          Are you sure you want to delete the story "{{ popups.delete.storyId!.name }}"
         </h3>
         <div style="flex-grow: 1;" />
         <button
           type="button"
           class="close"
-          @click="isDeletePopupOpen = false"
+          @click="popups.delete.open = false"
         >
           <x-icon />
         </button>
@@ -21,7 +21,7 @@
       <div class="buttons">
         <button
           class="submit half"
-          @click="deleteStory = undefined; isDeletePopupOpen = false"
+          @click="popups.delete.storyId = null; popups.delete.open = false"
         >
           No
         </button>
@@ -34,7 +34,7 @@
       </div>
     </div>
   </pop-up>
-  <pop-up v-if="isCreatePopupOpen">
+  <pop-up v-if="popups.create.open">
     <form
       class="popup"
       @submit.prevent="onCreate"
@@ -47,13 +47,13 @@
         <button
           type="button"
           class="close"
-          @click="isCreatePopupOpen = false"
+          @click="popups.create.open = false"
         >
           <x-icon />
         </button>
       </div>
       <input
-        v-model="newStoryName"
+        v-model="popups.create.name"
         type="text"
         class="name-input"
         placeholder="Name"
@@ -86,7 +86,7 @@
           <div style="flex-grow: 1;" />
           <button
             class="add"
-            @click="isCreatePopupOpen = true;"
+            @click="popups.create.open = true;"
           >
             <plus-icon />
           </button>
@@ -95,30 +95,13 @@
           v-if="stories.stories.length > 0"
           class="cards"
         >
-          <div
+          <story-card
             v-for="story in stories.stories"
             :key="story.id"
-            class="storycard"
-          >
-            <h2 class="name">
-              {{ story.name }}
-            </h2>
-            <strong>Last updated:</strong> {{ new Date(story.updated_at).toLocaleString() }}
-            <div class="actions">
-              <button
-                class="open"
-                @click="openStory(story.id)"
-              >
-                Open
-              </button>
-              <button
-                class="delete"
-                @click="onDelete(story)"
-              >
-                <trash-icon />
-              </button>
-            </div>
-          </div>
+            :on-open="openStory"
+            :on-delete="onDelete"
+            :story="story"
+          />
         </div>
         <div
           v-else
@@ -132,8 +115,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import useAPI from '../stores/api';
+import { defineComponent, reactive, ref } from 'vue';
 import useStories from '../stores/stories';
 import NavBar from '../components/NavBar.vue';
 import Container from '../components/Container.vue';
@@ -142,7 +124,7 @@ import UserInfo from '../components/UserInfo.vue';
 import SnackBar from '../components/SnackBar.vue';
 import XIcon from '../components/icons/XIcon.vue';
 import PlusIcon from '../components/icons/PlusIcon.vue';
-import TrashIcon from '../components/icons/TrashIcon.vue';
+import StoryCard from '../components/StoryCard.vue';
 
 import type Story from '../types/Story';
 
@@ -155,18 +137,21 @@ export default defineComponent({
     SnackBar,
     XIcon,
     PlusIcon,
-    TrashIcon,
+    StoryCard,
   },
   setup() {
-    const api = useAPI();
     const stories = useStories();
 
-    const isCreatePopupOpen = ref(false);
-    const isDeletePopupOpen = ref(false);
-
-    const deleteStory = ref<Story>();
-
-    const newStoryName = ref('');
+    const popups = reactive({
+      create: {
+        open: false,
+        name: '',
+      },
+      delete: {
+        open: false,
+        storyId: null as string | null
+      }
+    });
 
     const isSnackBarOpen = ref(false);
     const snackbarMessage = ref('');
@@ -184,51 +169,38 @@ export default defineComponent({
     };
 
     const onCreate = () => {
-      console.log(newStoryName.value);
-      api.fetch(`${api.serverURL}/api/v1/stories`, {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: newStoryName.value,
-        }),
-      }).then(() => {
-        stories.refreshStories();
-      });
-      isCreatePopupOpen.value = false;
-      showSnackBar(`Successfully created story "${newStoryName.value}"`);
-      newStoryName.value = '';
+      console.log(popups.create.name);
+      stories.createStory(popups.create.name);
+      popups.create.open = false;
+      showSnackBar(`Successfully created story "${popups.create.name}"`);
+      popups.create.name = '';
     };
 
-    const onDelete = (story: Story) => {
-      isDeletePopupOpen.value = true;
-      deleteStory.value = story;
+    const onDelete = (storyId: string) => {
+      popups.delete.open = true;
+      popups.delete.storyId = storyId;
     };
 
     const onConfirmDelete = () => {
-      api.fetch(`${api.serverURL}/api/v1/stories/${deleteStory.value!.id}`, {
-        method: 'DELETE',
-      }).then(() => {
-        stories.refreshStories();
-      });
-      isDeletePopupOpen.value = false;
-      showSnackBar(`Successfully deleted story "${deleteStory.value?.name}"`);
-      deleteStory.value = undefined;
+      stories.deleteStory(popups.delete.storyId!);
+      popups.delete.open = false;
+      showSnackBar(`Successfully deleted story "${popups.delete.storyId!}"`);
+      popups.delete.storyId = null;
     };
 
     return {
       stories,
       openStory,
       onCreate,
-      newStoryName,
-      isCreatePopupOpen,
-      isDeletePopupOpen,
+      // newStoryName,
+      // isCreatePopupOpen,
+      // isDeletePopupOpen,
       onDelete,
-      deleteStory,
+      // deleteStory,
       onConfirmDelete,
       isSnackBarOpen,
       snackbarMessage,
+      popups,
     };
   },
 });
@@ -318,38 +290,6 @@ export default defineComponent({
         gap: 12px;
         align-items: center;
         justify-content: center;
-
-        .storycard {
-          padding: 18px !important;
-          width: 320px;
-          @include primary-container;
-          @include animated-primary-container;
-
-          .name {
-            margin-bottom: 12px;
-          }
-
-          .actions {
-            display: flex;
-            margin-top: 8px;
-            gap: 8px;
-
-            button {
-              @include primary-container;
-              @include clickable-primary-container;
-            }
-
-            .open {
-              flex-grow: 1;
-              font-size: 16px;
-            }
-
-            .delete {
-              aspect-ratio: 1/1;
-              padding: 8px;
-            }
-          }
-        }
       }
     }
   }

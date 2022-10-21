@@ -16,7 +16,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, watch, ref } from 'vue';
+import {
+  defineComponent, computed, watch, ref,
+} from 'vue';
 import XIcon from './icons/XIcon.vue';
 
 export default defineComponent({

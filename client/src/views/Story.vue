@@ -303,6 +303,10 @@ export default defineComponent({
       overflow-y: scroll;
       @include primary-scrollbar($lightPrimaryColor);
 
+      > * {
+        @include animated-primary-container;
+      }
+
       .save {
         width: 100%;
         height: 32px;

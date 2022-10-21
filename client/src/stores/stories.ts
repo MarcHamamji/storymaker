@@ -27,9 +27,33 @@ const useStories = defineStore('stories', () => {
     return data;
   }
 
+  async function deleteStory(storyId: string) {
+    const api = useAPI();
+    await api.fetch(`${api.serverURL}/api/v1/stories/${storyId}`, {
+      method: 'DELETE',
+    });
+    await refreshStories();
+  }
+
+  async function createStory(name: string) {
+    const api = useAPI();
+    await api.fetch(`${api.serverURL}/api/v1/stories`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+      }),
+    });
+    await refreshStories();
+  }
+
   return {
     stories,
     refreshStories,
+    deleteStory,
+    createStory,
     getStory,
   };
 });
