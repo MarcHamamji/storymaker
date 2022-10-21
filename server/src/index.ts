@@ -21,6 +21,10 @@ const knex = Knex(knexConfig[environment]);
 Model.knex(knex);
 
 const app = express();
+
+app.use(session({ secret: config.JWT_SECRET, saveUninitialized: true, resave: false }));
+app.use(grant.express(grantConfig));
+
 app.use(cors({
   origin: config.CLIENT_URL,
 }));
@@ -33,9 +37,6 @@ app.use(rateLimiter({
   legacyHeaders: false,
 }));
 app.use(express.json());
-
-app.use(session({ secret: config.JWT_SECRET, saveUninitialized: true, resave: false }));
-app.use(grant.express(grantConfig));
 
 app.use(setUser);
 app.use('/api/v1', v1);
