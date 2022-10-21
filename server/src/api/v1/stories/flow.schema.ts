@@ -58,7 +58,7 @@ const FlowSchema = zod.object({
   if (startNode.outputs.output_1.connections.length !== 1) return false;
   return true;
 }, {
-  message: 'The story should contain exactly one "Start" node.',
+  message: 'The story should contain and use exactly one "Start" node.',
 });
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
