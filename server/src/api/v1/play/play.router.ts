@@ -1,14 +1,12 @@
 import { Router } from 'express';
+import db from '../../../db';
 import { IDParamValidator } from '../../../utils/RequestValidator';
-import StoryModel from '../stories/stories.model';
 
 const router = Router();
 
 router.get('/:id', IDParamValidator, async (req, res, next) => {
   try {
-    const story = await StoryModel.query()
-      .findById(req.params.id);
-
+    const story = await db.selectFrom('story').where('id', '=', req.params.id).selectAll().executeTakeFirstOrThrow();
     res.json({ story });
   } catch (error) {
     next(error);

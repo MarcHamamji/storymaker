@@ -1,13 +1,11 @@
 import { Router } from 'express';
-
-import UserModel from './users.model';
+import db from '../../../db';
 
 const router = Router();
 
 router.get('/', async (req, res, next) => {
   try {
-    const user = await UserModel.query()
-      .findById(req.userJWT!.id);
+    const user = await db.selectFrom('user').where('id', '=', req.userJWT!.id).selectAll().executeTakeFirst();
     res.json({ user });
   } catch (error) {
     next(error);

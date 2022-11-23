@@ -1,19 +1,18 @@
-import { randomUUID } from 'crypto';
+// import { randomUUID } from 'crypto';
 import { Router } from 'express';
 import zod from 'zod';
 
-import StoryModel from './stories.model';
-import UserModel from '../users/users.model';
 import requestValidator, { IDParamValidator } from '../../../utils/RequestValidator';
-import StorySchema from './stories.schema';
+import db from '../../../db';
+import { StoryPublicData } from '../../../db/tables/Story';
+import { randomUUID } from 'crypto';
 
 const router = Router();
 
 router.get('/', async (req, res, next) => {
   try {
-    const stories = await StoryModel.query()
-      .where('user_id', req.userJWT!.id)
-      .orderBy('updated_at', 'DESC');
+    const stories = await db.selectFrom('story').where('user_id', '=', req.userJWT!.id).selectAll().orderBy('updated_at', 'desc')
+      .execute();
     res.json({ stories });
   } catch (error) {
     next(error);
@@ -22,16 +21,8 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', IDParamValidator, async (req, res, next) => {
   try {
-    const story = await StoryModel.query()
-      .where('user_id', req.userJWT!.id)
-      .where('id', req.params.id)
-      .first();
-
-    if (!story) {
-      res.status(404);
-      next(new Error('Story not found'));
-    }
-
+    const story = await db.selectFrom('story').where('user_id', '=', req.userJWT!.id).where('id', '=', req.params.id).selectAll()
+      .executeTakeFirstOrThrow();
     res.json({ story });
   } catch (error) {
     next(error);
@@ -42,17 +33,14 @@ router.patch('/:id', requestValidator({
   params: zod.object({
     id: zod.string().uuid(),
   }),
-  body: StorySchema,
+  body: StoryPublicData.partial(),
 }), async (req, res, next) => {
   try {
-    await StoryModel.query()
-      .where('user_id', req.userJWT!.id)
-      .where('id', req.params.id)
-      .first()
-      .patch({
-        flow: (req.body as StorySchema).flow,
-        name: (req.body as StorySchema).name,
-      });
+    await db.updateTable('story').set({
+      ...req.body,
+    }).where('user_id', '=', req.userJWT!.id)
+      .where('id', '=', req.params.id)
+      .executeTakeFirstOrThrow();
     res.json({ message: 'OK' });
   } catch (error) {
     next(error);
@@ -65,8 +53,7 @@ router.post('/', requestValidator({
   }),
 }), async (req, res, next) => {
   try {
-    const user = await UserModel.query().findById(req.userJWT!.id);
-    const inserted = await user?.$relatedQuery('story').insert({
+    const inserted = await db.insertInto('story').values({
       id: randomUUID(),
       flow: {
         drawflow: {
@@ -78,7 +65,7 @@ router.post('/', requestValidator({
       },
       name: req.body.name,
       user_id: req.userJWT!.id,
-    });
+    }).returningAll().executeTakeFirst();
     res.json({ story: inserted });
   } catch (error) {
     next(error);
@@ -87,9 +74,7 @@ router.post('/', requestValidator({
 
 router.delete('/:id', IDParamValidator, async (req, res, next) => {
   try {
-    await UserModel.relatedQuery('story')
-      .for(req.userJWT!.id)
-      .deleteById(req.params.id);
+    await db.deleteFrom('story').where('user_id', '=', req.userJWT!.id).where('id', '=', req.params.id).executeTakeFirst();
     res.json({ message: 'OK' });
   } catch (error) {
     next(error);

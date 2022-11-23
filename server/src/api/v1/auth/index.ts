@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { Router } from 'express';
 import JWT from 'jsonwebtoken';
+import db from '../../../db';
 import config from '../../../utils/config';
-import UserModel from '../users/users.model';
 
 function generateJWT(id: number) {
   return JWT.sign({ id }, config.JWT_SECRET || 'keyboard_cat', {
@@ -17,15 +17,15 @@ interface UserProfile {
 }
 
 async function createOrGetUser(profile: UserProfile) {
-  let dbUser = await UserModel.query().where('email', profile.email).first();
+  let dbUser = await db.selectFrom('user').where('email', '=', profile.email).selectAll().executeTakeFirst();
 
   if (!dbUser) {
-    dbUser = await UserModel.query().insert(profile);
+    dbUser = await db.insertInto('user').values(profile).returningAll().executeTakeFirst();
     console.log('Inserted user!');
   } else {
     console.log('User Exists!');
   }
-  return dbUser;
+  return dbUser!;
 }
 
 // Connection URL: http://localhost:5555/api/v1/auth/provider

@@ -18,7 +18,7 @@ const schema = zod.object({
   POSTGRES_USER: zod.string().min(1),
   POSTGRES_PASSWORD: zod.string().min(1),
   POSTGRES_DB: zod.string().min(1),
-  POSTGRES_PORT: zod.string().regex(/[0-9]+/).min(2),
+  POSTGRES_PORT: zod.string().regex(/[0-9]+/).min(2).transform((s) => parseInt(s, 10)),
 });
 
 const config = schema.parse(process.env);

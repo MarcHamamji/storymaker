@@ -9,9 +9,14 @@ export function notFound(req: Request, res: Response, next: NextFunction) {
 }
 
 // eslint-disable-next-line no-unused-vars
-export function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
-  const statusCode = res.statusCode !== 200 ? res.statusCode : 500;
-  res.status(statusCode);
+export function errorHandler(err: Error, _req: Request, res: Response, _next: NextFunction) {
+  console.log('ERROR');
+  if (err.message === 'no result') {
+    res.status(404);
+  } else {
+    const statusCode = res.statusCode !== 200 ? res.statusCode : 500;
+    res.status(statusCode);
+  }
   res.json({
     message: err.message,
     stack: config.NODE_ENV === 'production' ? '' : err.stack,

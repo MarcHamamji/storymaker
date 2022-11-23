@@ -1,5 +1,3 @@
-import Knex from 'knex';
-import { Model } from 'objection';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -13,12 +11,7 @@ import v1 from './api/v1';
 import { setUser } from './api/v1/auth/middlewares';
 import config from './utils/config';
 import grantConfig from './grant-config';
-
-const knexConfig = require('../knexfile');
-
-const environment = config.NODE_ENV || 'development';
-const knex = Knex(knexConfig[environment]);
-Model.knex(knex);
+import './db';
 
 const app = express();
 
