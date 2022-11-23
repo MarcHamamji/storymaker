@@ -177,7 +177,8 @@ export default defineComponent({
     const saveFlow = async () => {
       try {
         await drawflow.saveFlow(storyId.value!);
-        showSnackBar('Successfully saved story');
+        // showSnackBar('Successfully saved story');
+        showSnackBar('Loremipsumdolorsitamet,officiaexcepteurexfugiatreprehenderitenimlaboreculpasintadnisiLorempariaturmollitexesseexercitationamet.Nisianimcupidatatexcepteurofficia.ReprehenderitnostrudnostrudipsumLoremestaliquipametvoluptatevoluptatedolorminimnullaestproident.Nostrudofficiapariaturutofficia.SitirureelitesseeanullasuntexoccaecatreprehenderitcommodoofficiadolorLoremduislaboriscupidatatofficiavoluptate.CulpaproidentadipisicingidnullanisilaborisexinLoremsuntduisofficiaeiusmod.Aliquareprehenderitcommodoexnonexcepteurduissuntvelitenim.Voluptatelaborissintcupidatatullamcouteaconsecteturetestculpaetculpaduis.');
       } catch (error) {
         showSnackBar((error as Error).message);
       }

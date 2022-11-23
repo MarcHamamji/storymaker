@@ -3,8 +3,12 @@
     <div
       v-if="enabled"
       class="snackbar"
+      @mouseenter="mouseEnter"
+      @mouseleave="mouseLeave"
     >
-      {{ message }}
+      <div class="text">
+        {{ message }}
+      </div>
       <button
         class="close"
         @click="enabled = false"
@@ -49,7 +53,6 @@ export default defineComponent({
     });
 
     watch(enabled, () => {
-      console.log('ENABLED CHANGED');
       if (enabled.value === true) {
         clearTimeout(timeout.value);
         timeout.value = setTimeout(() => {
@@ -67,8 +70,22 @@ export default defineComponent({
       }
     });
 
+    const mouseEnter = () => {
+      clearTimeout(timeout.value);
+      timeout.value = undefined;
+    };
+
+    const mouseLeave = () => {
+      clearTimeout(timeout.value);
+      timeout.value = setTimeout(() => {
+        enabled.value = false;
+      }, 3000);
+    };
+
     return {
       enabled,
+      mouseEnter,
+      mouseLeave,
     };
   },
 });
@@ -90,11 +107,17 @@ export default defineComponent({
   justify-content: space-between;
   width: 400px;
   max-width: 90vw;
+  gap: 4px;
+
+  .text {
+    overflow: scroll;
+    max-height: 80px;
+  }
 
   .close {
     aspect-ratio: 1/1;
-  @include primary-container;
-  @include clickable-primary-container;
+    @include primary-container;
+    @include clickable-primary-container;
   }
 }
 
