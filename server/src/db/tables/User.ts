@@ -2,7 +2,7 @@ import zod from 'zod';
 import { generated, timestamps } from './utils';
 
 const UserSchema = zod.object({
-  id: generated<number>(zod.number()),
+  id: generated(zod.number()),
   name: zod.string(),
   email: zod.string(),
   avatar_url: zod.string(),
