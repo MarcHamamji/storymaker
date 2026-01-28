@@ -1,7 +1,5 @@
 # Storymaker
 
-Deplyed [here](https://storymaker-mh.vercel.app/#/)
-
 ---
 
 ### Start in development:
